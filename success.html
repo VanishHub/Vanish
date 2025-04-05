@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanish Keysystem - Success</title>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            background: #1a1a1a;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+        h1 {
+            font-size: 30px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+        }
+        .error-msg {
+            color: red;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+            text-shadow: 0 0 10px red;
+            display: none;
+        }
+        .btn {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+        .btn:hover {
+            background-color: #404DFF;
+            color: #111;
+            box-shadow: 0 0 20px #404DFF;
+        }
+        .key-container {
+            display: none;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .key-box {
+            background-color: #222;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            text-align: center;
+            width: 320px;
+            text-shadow: 0 0 10px white, 0 0 20px white, 0 0 30px white;
+            display: none;
+        }
+        .copy-btn {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            color: white;
+            text-shadow: 0 0 10px white, 0 0 20px white;
+            transition: 0.3s;
+            display: none;
+        }
+        .copy-btn:hover {
+            color: #404DFF;
+            text-shadow: 0 0 15px #404DFF;
+        }
+        .checked {
+            color: #4CAF50;
+            font-size: 22px;
+            text-shadow: 0 0 10px #4CAF50, 0 0 20px #4CAF50, 0 0 30px #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="pageTitle" style="color: #404DFF; text-shadow: 0 0 10px #404DFF, 0 0 20px #404DFF;">Keysystem Complete</h1>
+        <p class="error-msg" id="errorMsg">Bypasser Detected, Please Try Again..</p>
+        <button class="btn" id="getKeyBtn" onclick="generateKey()">Get Key</button>
+        <div class="key-container">
+            <div class="key-box" id="keyBox"></div>
+            <button class="copy-btn" id="copyKeyBtn" onclick="copyKey()">📋</button>
+        </div>
+    </div>
+
+    <script>
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        function checkBypass() {
+            const verified = getQueryParam("verified");
+            const started = sessionStorage.getItem("checkpoint_started");
+            const errorMsg = document.getElementById("errorMsg");
+            const getKeyBtn = document.getElementById("getKeyBtn");
+            const title = document.getElementById("pageTitle");
+
+            // List of known bypasser domains and user agents
+            const blockedBypassers = [
+                "heist.lol", "phoenixbot.lol", "bypass.city", "bypass.vip", "bypass.xyz", "bypass.club",
+                "bypass.website", "norefer.io", "linkbypass.xyz", "linkconverter.com", "linkbypass.net", "cryptolink.xyz",
+                "rbxbot.link", "rbx-bypass.com", "rbxkey.com", "bacon.link", // Potential Bacon Bypasser domain
+            ];
+
+            const blockedUserAgents = [
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 BypassBot",
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0 BypassBot",
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 LinkExtractor",
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 bot-tester",
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 BypassProxy",
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 BaconBot", // Add BaconBot or similar user agent
+            ];
+
+            const referrer = document.referrer;
+            const userAgent = navigator.userAgent;
+
+            // Check if the referrer is from a blocked bypasser or Discord-like behavior
+            const isBlockedByReferrer = blockedBypassers.some(bypass => referrer.includes(bypass));
+            const isBlockedByUserAgent = blockedUserAgents.some(agent => userAgent.includes(agent));
+
+            // Check for bot-like behavior (e.g., rapid requests)
+            const currentTime = Date.now();
+            const lastRequestTime = sessionStorage.getItem("last_request_time");
+            if (lastRequestTime && currentTime - lastRequestTime < 1000) {
+                errorMsg.style.display = "block";
+                getKeyBtn.style.display = "none";
+                title.innerText = "Bot Activity Detected";
+                title.style.color = "red";
+                title.style.textShadow = "0 0 10px red, 0 0 20px red";
+                return;
+            }
+
+            // Store the current time for future checks
+            sessionStorage.setItem("last_request_time", currentTime);
+
+            if (isBlockedByReferrer || isBlockedByUserAgent) {
+                errorMsg.style.display = "block";
+                getKeyBtn.style.display = "none";
+                title.innerText = "Bypass Detected";
+                title.style.color = "red";
+                title.style.textShadow = "0 0 10px red, 0 0 20px red";
+                return;
+            }
+
+            // Standard checkpoint verification logic
+            if (verified === "1" && started) {
+                sessionStorage.setItem("checkpoint_completed", "true");
+            }
+
+            let sessionValid = sessionStorage.getItem("checkpoint_completed");
+
+            if (!sessionValid) {
+                errorMsg.style.display = "block";
+                getKeyBtn.style.display = "none";
+                title.innerText = "Keysystem Failed";
+                title.style.color = "red";
+                title.style.textShadow = "0 0 10px red, 0 0 20px red";
+            }
+        }
+
+        window.onload = checkBypass;
+    </script>
+</body>
+</html>
