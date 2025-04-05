@@ -80,6 +80,16 @@
             color: #404DFF;
             text-shadow: 0 0 15px #404DFF;
         }
+        /* New green check mark and glowing effect */
+        .copy-btn-copied {
+            color: green;
+            text-shadow: 0 0 15px green, 0 0 25px green, 0 0 35px green;
+        }
+        .copy-btn-copied:before {
+            content: "✔";
+            font-size: 24px;
+            margin: 0;
+        }
     </style>
 </head>
 <body>
@@ -118,6 +128,12 @@
             window.getSelection().removeAllRanges();
             window.getSelection().addRange(range);
             document.execCommand('copy');
+
+            // Change the copy button to a green check mark with glowing effect
+            const copyBtn = document.getElementById("copyKeyBtn");
+            copyBtn.classList.add("copy-btn-copied");
+            copyBtn.textContent = "✔";
+            copyBtn.disabled = true; // Disable the button after copying
         }
     </script>
 </body>
