@@ -25,8 +25,6 @@
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 5px;
-            color: #404DFF;
-            text-shadow: 0 0 10px #404DFF, 0 0 20px #404DFF;
         }
         .error-msg {
             color: red;
@@ -90,17 +88,12 @@
             color: #404DFF;
             text-shadow: 0 0 15px #404DFF;
         }
-        .checked {
-            color: #4CAF50;
-            font-size: 22px;
-            text-shadow: 0 0 10px #4CAF50, 0 0 20px #4CAF50, 0 0 30px #4CAF50;
-        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 id="pageTitle">Keysystem Complete</h1>
-        <p class="error-msg" id="errorMsg">Bypass Detected, Please Try Again..</p>
+        <h1 id="pageTitle" style="color: #404DFF; text-shadow: 0 0 10px #404DFF, 0 0 20px #404DFF;">Keysystem Complete</h1>
+        <p class="error-msg" id="errorMsg">Bypasser Detected, Please Try Again..</p>
         <button class="btn" id="getKeyBtn" onclick="generateKey()">Get Key</button>
         <div class="key-container">
             <div class="key-box" id="keyBox"></div>
@@ -133,9 +126,9 @@
 
             // Check if the referrer is from a blocked bypasser
             const isBlockedByReferrer = blockedBypassers.some(bypass => referrer.includes(bypass));
-            const isBlockedByUserAgent = blockedBypassers.some(bypass => userAgent.includes(bypass));
+            const isBlockedByUserAgent = blockedBypassers.some(agent => userAgent.includes(agent));
 
-            // If bypass detected, show error message and hide the "Get Key" button
+            // If a blocked bypasser is detected, show error
             if (isBlockedByReferrer || isBlockedByUserAgent) {
                 errorMsg.style.display = "block";
                 getKeyBtn.style.display = "none";
@@ -159,8 +152,9 @@
                 title.style.color = "red";
                 title.style.textShadow = "0 0 10px red, 0 0 20px red";
             } else {
-                // If everything is valid, show the "Get Key" button
-                getKeyBtn.style.display = "block";
+                // Display the "Get Key" button if the session is valid and no bypasser is detected
+                document.getElementById("keyBox").style.display = "block";
+                document.getElementById("copyKeyBtn").style.display = "block";
             }
         }
 
