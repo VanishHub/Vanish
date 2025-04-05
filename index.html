@@ -58,8 +58,10 @@
 
     <script>
         function proceed() {
-            // Set a flag in localStorage to indicate the checkpoint is started
-            localStorage.setItem("checkpoint_started", "true");
+            // Store the session state indicating the checkpoint has started
+            sessionStorage.setItem("checkpoint_started", "true");
+
+            // Redirect to Work.ink
             window.location.href = "https://workink.net/1YXL/Vanish";
         }
     </script>
