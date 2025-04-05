@@ -88,6 +88,11 @@
             color: #404DFF;
             text-shadow: 0 0 15px #404DFF;
         }
+        .checked {
+            color: #4CAF50;
+            font-size: 22px;
+            text-shadow: 0 0 10px #4CAF50, 0 0 20px #4CAF50, 0 0 30px #4CAF50;
+        }
     </style>
 </head>
 <body>
@@ -109,26 +114,38 @@
 
         function checkBypass() {
             const verified = getQueryParam("verified");
-            const started = sessionStorage.getItem("checkpoint_started");
+            const started = localStorage.getItem("checkpoint_started");
             const errorMsg = document.getElementById("errorMsg");
             const getKeyBtn = document.getElementById("getKeyBtn");
             const title = document.getElementById("pageTitle");
 
-            // List of known bypasser domains and user agents
+            // List of known bypasser domains
             const blockedBypassers = [
                 "heist.lol", "phoenixbot.lol", "bypass.city", "bypass.vip", "bypass.xyz", "bypass.club",
                 "bypass.website", "norefer.io", "linkbypass.xyz", "linkconverter.com", "linkbypass.net", "cryptolink.xyz",
                 "rbxbot.link", "rbx-bypass.com", "rbxkey.com", "bacon.link",
             ];
 
-            const referrer = document.referrer;
-            const userAgent = navigator.userAgent;
+            // Disable referrer and user agent checks for now
+            const isBlockedByReferrer = false;
+            const isBlockedByUserAgent = false;
 
-            // Check if the referrer is from a blocked bypasser
-            const isBlockedByReferrer = blockedBypassers.some(bypass => referrer.includes(bypass));
-            const isBlockedByUserAgent = blockedBypassers.some(agent => userAgent.includes(agent));
+            // Check for bot-like behavior (e.g., rapid requests)
+            const currentTime = Date.now();
+            const lastRequestTime = localStorage.getItem("last_request_time");
+            if (lastRequestTime && currentTime - lastRequestTime < 1000) {
+                errorMsg.style.display = "block";
+                getKeyBtn.style.display = "none";
+                title.innerText = "Bot Activity Detected";
+                title.style.color = "red";
+                title.style.textShadow = "0 0 10px red, 0 0 20px red";
+                return;
+            }
 
-            // If a blocked bypasser is detected, show error
+            // Store the current time for future checks
+            localStorage.setItem("last_request_time", currentTime);
+
+            // Check if a bypasser is detected
             if (isBlockedByReferrer || isBlockedByUserAgent) {
                 errorMsg.style.display = "block";
                 getKeyBtn.style.display = "none";
@@ -138,12 +155,12 @@
                 return;
             }
 
-            // Standard checkpoint verification logic
+            // Check for valid completion of checkpoint and bypass detection
             if (verified === "1" && started) {
-                sessionStorage.setItem("checkpoint_completed", "true");
+                localStorage.setItem("checkpoint_completed", "true");
             }
 
-            let sessionValid = sessionStorage.getItem("checkpoint_completed");
+            let sessionValid = localStorage.getItem("checkpoint_completed");
 
             if (!sessionValid) {
                 errorMsg.style.display = "block";
@@ -152,9 +169,9 @@
                 title.style.color = "red";
                 title.style.textShadow = "0 0 10px red, 0 0 20px red";
             } else {
-                // Display the "Get Key" button if the session is valid and no bypasser is detected
-                document.getElementById("keyBox").style.display = "block";
-                document.getElementById("copyKeyBtn").style.display = "block";
+                // No bypass detected, show the "Get Key" button
+                getKeyBtn.style.display = "inline-block";
+                title.innerText = "Keysystem Complete";
             }
         }
 
