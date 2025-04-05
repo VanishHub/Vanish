@@ -26,14 +26,6 @@
             text-transform: uppercase;
             letter-spacing: 5px;
         }
-        .error-msg {
-            color: red;
-            font-size: 18px;
-            font-weight: bold;
-            margin-top: 20px;
-            text-shadow: 0 0 10px red;
-            display: none;
-        }
         .btn {
             background-color: #333;
             color: #fff;
@@ -72,7 +64,6 @@
             text-align: center;
             width: 320px;
             text-shadow: 0 0 10px white, 0 0 20px white, 0 0 30px white;
-            display: none;
         }
         .copy-btn {
             background-color: transparent;
@@ -82,23 +73,16 @@
             color: white;
             text-shadow: 0 0 10px white, 0 0 20px white;
             transition: 0.3s;
-            display: none;
         }
         .copy-btn:hover {
             color: #404DFF;
             text-shadow: 0 0 15px #404DFF;
-        }
-        .checked {
-            color: #4CAF50;
-            font-size: 22px;
-            text-shadow: 0 0 10px #4CAF50, 0 0 20px #4CAF50, 0 0 30px #4CAF50;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1 id="pageTitle" style="color: #404DFF; text-shadow: 0 0 10px #404DFF, 0 0 20px #404DFF;">Keysystem Complete</h1>
-        <p class="error-msg" id="errorMsg">Bypasser Detected, Please Try Again..</p>
         <button class="btn" id="getKeyBtn" onclick="generateKey()">Get Key</button>
         <div class="key-container">
             <div class="key-box" id="keyBox"></div>
@@ -112,70 +96,34 @@
             return urlParams.get(param);
         }
 
-        function checkBypass() {
-            const verified = getQueryParam("verified");
-            const started = localStorage.getItem("checkpoint_started");
-            const errorMsg = document.getElementById("errorMsg");
-            const getKeyBtn = document.getElementById("getKeyBtn");
-            const title = document.getElementById("pageTitle");
-
-            // List of known bypasser domains
-            const blockedBypassers = [
-                "heist.lol", "phoenixbot.lol", "bypass.city", "bypass.vip", "bypass.xyz", "bypass.club",
-                "bypass.website", "norefer.io", "linkbypass.xyz", "linkconverter.com", "linkbypass.net", "cryptolink.xyz",
-                "rbxbot.link", "rbx-bypass.com", "rbxkey.com", "bacon.link",
-            ];
-
-            // Disable referrer and user agent checks for now
-            const isBlockedByReferrer = false;
-            const isBlockedByUserAgent = false;
-
-            // Check for bot-like behavior (e.g., rapid requests)
-            const currentTime = Date.now();
-            const lastRequestTime = localStorage.getItem("last_request_time");
-            if (lastRequestTime && currentTime - lastRequestTime < 1000) {
-                errorMsg.style.display = "block";
-                getKeyBtn.style.display = "none";
-                title.innerText = "Bot Activity Detected";
-                title.style.color = "red";
-                title.style.textShadow = "0 0 10px red, 0 0 20px red";
-                return;
-            }
-
-            // Store the current time for future checks
-            localStorage.setItem("last_request_time", currentTime);
-
-            // Check if a bypasser is detected
-            if (isBlockedByReferrer || isBlockedByUserAgent) {
-                errorMsg.style.display = "block";
-                getKeyBtn.style.display = "none";
-                title.innerText = "Bypass Detected";
-                title.style.color = "red";
-                title.style.textShadow = "0 0 10px red, 0 0 20px red";
-                return;
-            }
-
-            // Check for valid completion of checkpoint and bypass detection
-            if (verified === "1" && started) {
-                localStorage.setItem("checkpoint_completed", "true");
-            }
-
-            let sessionValid = localStorage.getItem("checkpoint_completed");
-
-            if (!sessionValid) {
-                errorMsg.style.display = "block";
-                getKeyBtn.style.display = "none";
-                title.innerText = "Keysystem Failed";
-                title.style.color = "red";
-                title.style.textShadow = "0 0 10px red, 0 0 20px red";
-            } else {
-                // No bypass detected, show the "Get Key" button
-                getKeyBtn.style.display = "inline-block";
-                title.innerText = "Keysystem Complete";
-            }
+        function generateKey() {
+            // Generate a random key
+            const key = Math.random().toString(36).substring(2, 34);
+            document.getElementById("keyBox").innerText = key;
+            document.getElementById("keyBox").style.display = "block";
+            document.getElementById("copyKeyBtn").style.display = "block";
         }
 
-        window.onload = checkBypass;
+        window.onload = function() {
+            const verified = getQueryParam("verified");
+            const started = sessionStorage.getItem("checkpoint_started");
+
+            if (verified === "1" && started) {
+                sessionStorage.setItem("checkpoint_completed", "true");
+            }
+
+            let sessionValid = sessionStorage.getItem("checkpoint_completed");
+
+            if (!sessionValid) {
+                document.getElementById("pageTitle").innerText = "Keysystem Failed";
+                document.getElementById("pageTitle").style.color = "red";
+                document.getElementById("pageTitle").style.textShadow = "0 0 10px red, 0 0 20px red";
+                document.getElementById("getKeyBtn").style.display = "none";
+            } else {
+                document.getElementById("keyBox").style.display = "block";
+                document.getElementById("copyKeyBtn").style.display = "block";
+            }
+        }
     </script>
 </body>
 </html>
