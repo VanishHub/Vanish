@@ -94,14 +94,30 @@
 
     <script>
         function generateKey() {
+            // Generate a unique key
             const key = Math.random().toString(36).substring(2, 18) + Math.random().toString(36).substring(2, 18);
+            
+            // Display the generated key
             document.getElementById("keyBox").textContent = key;
             document.getElementById("keyBox").style.display = "block";
             document.getElementById("copyKeyBtn").style.display = "block";
+            
+            // Hide the "Get Key" button
+            document.getElementById("getKeyBtn").style.display = "none";
         }
 
         window.onload = function() {
+            // Automatically display the "Get Key" button when the page loads
             document.getElementById("getKeyBtn").style.display = "block";
+        }
+
+        function copyKey() {
+            const keyBox = document.getElementById("keyBox");
+            const range = document.createRange();
+            range.selectNode(keyBox);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            document.execCommand('copy');
         }
     </script>
 </body>
