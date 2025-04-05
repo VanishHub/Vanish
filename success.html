@@ -84,7 +84,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Keysystem Complete</h1>
+        <h1 id="pageTitle" style="color: #404DFF; text-shadow: 0 0 10px #404DFF, 0 0 20px #404DFF;">Keysystem Complete</h1>
         <button class="btn" id="getKeyBtn" onclick="generateKey()">Get Key</button>
         <div class="key-container">
             <div class="key-box" id="keyBox"></div>
@@ -94,20 +94,14 @@
 
     <script>
         function generateKey() {
-            // Generate a unique key (you can modify this to be more complex)
-            const key = Math.random().toString(36).substr(2, 32);
+            const key = Math.random().toString(36).substring(2, 18) + Math.random().toString(36).substring(2, 18);
             document.getElementById("keyBox").textContent = key;
             document.getElementById("keyBox").style.display = "block";
             document.getElementById("copyKeyBtn").style.display = "block";
         }
 
-        function copyKey() {
-            const keyBox = document.getElementById("keyBox");
-            const range = document.createRange();
-            range.selectNode(keyBox);
-            window.getSelection().removeAllRanges();
-            window.getSelection().addRange(range);
-            document.execCommand('copy');
+        window.onload = function() {
+            document.getElementById("getKeyBtn").style.display = "block";
         }
     </script>
 </body>
