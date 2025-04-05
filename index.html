@@ -24,9 +24,20 @@
             font-size: 30px;
             font-weight: bold;
             text-transform: uppercase;
-            color: #404DFF;
             letter-spacing: 5px;
             text-shadow: 0 0 10px #404DFF, 0 0 20px #404DFF;
+            background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+            background-clip: text;
+            color: transparent;
+            animation: rainbow 5s linear infinite;
+        }
+        @keyframes rainbow {
+            0% {
+                background-position: 0%;
+            }
+            100% {
+                background-position: 100%;
+            }
         }
         .btn {
             background-color: #333;
