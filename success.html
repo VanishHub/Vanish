@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Visual Keysystem</title>
+  <title>Keysystem Complete</title>
   <style>
     @font-face {
       font-family: 'Orbitron';
@@ -132,15 +132,35 @@
     .discord-link a {
       text-decoration: none;
     }
+
+    .key-container {
+      margin-top: 20px;
+      font-size: 20px;
+      color: white;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .key {
+      font-size: 30px;
+      letter-spacing: 3px;
+      background: linear-gradient(135deg, #1b005f, #7c00a6, #d000ab, #007cbe);
+      background-size: 400% 400%;
+      animation: gradientBG 4.5s ease infinite;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <img src="images/leaf.png" alt="Leaf Icon" class="leaf-icon" />
     <h1>Visual Keysystem</h1>
+    <div class="key-container">
+      <div>Your Key:</div>
+      <div id="key" class="key">Loading...</div>
+    </div>
     <button class="btn" onclick="proceed()">Get Key</button>
 
-    <!-- Move Discord link slightly left to center it -->
     <div class="discord-link">
       <a href="https://discord.gg/tr3EAmja" target="_blank">
         <span>Visual Hub Discord</span>
@@ -163,9 +183,24 @@
   </div>
 
   <script>
-    function proceed() {
-      // Additional functionality here
+    function generateKey() {
+      const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+      let key = '';
+      for (let i = 0; i < 16; i++) {
+        key += chars.charAt(Math.floor(Math.random() * chars.length));
+        if (i % 2 === 1 && i < 15) {
+          key += ' ';
+        }
+      }
+      return key;
     }
+
+    function proceed() {
+      // Add any additional actions when "Get Key" is clicked
+    }
+
+    // Generate and display the key when the page loads
+    document.getElementById('key').textContent = generateKey();
   </script>
 </body>
 </html>
