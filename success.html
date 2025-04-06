@@ -1,166 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vanish Keysystem - Success</title>
-    <style>
-        body {
-            background-color: #0a0a0a;
-            color: white;
-            font-family: 'Arial', sans-serif;
-            text-align: center;
-            padding: 50px;
-        }
-        .container {
-            max-width: 400px;
-            margin: auto;
-            background: #1a1a1a;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-        }
-        h1 {
-            font-size: 30px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            animation: rainbowText 5s ease-in-out infinite; /* Smooth rainbow color transition */
-            text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vanish Keysystem - Success</title>
+  <style>
+    body {
+      background-color: #000000;
+      color: white;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      padding: 50px;
+    }
+    .container {
+      max-width: 400px;
+      margin: auto;
+      background: #111;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+    }
+    h1 {
+      font-size: 30px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      background: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet, red);
+      background-size: 1600% 1600%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: rainbowFlow 8s ease infinite;
+      text-shadow: none;
+    }
+    @keyframes rainbowFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .btn {
+      background-color: #333;
+      color: #fff;
+      border: none;
+      padding: 15px;
+      width: 100%;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 20px;
+      border-radius: 10px;
+      text-transform: uppercase;
+      transition: all 0.3s ease-in-out;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    }
+    .btn:hover {
+      background-color: #404DFF;
+      color: #111;
+      box-shadow: 0 0 20px #404DFF;
+    }
 
-        /* Rainbow Color Animation */
-        @keyframes rainbowText {
-            0% {
-                color: rgb(255, 0, 0); /* Red */
-            }
-            16% {
-                color: rgb(255, 127, 0); /* Orange */
-            }
-            33% {
-                color: rgb(255, 255, 0); /* Yellow */
-            }
-            50% {
-                color: rgb(0, 255, 0); /* Green */
-            }
-            66% {
-                color: rgb(0, 0, 255); /* Blue */
-            }
-            83% {
-                color: rgb(75, 0, 130); /* Indigo */
-            }
-            100% {
-                color: rgb(148, 0, 211); /* Violet */
-            }
-        }
+    .key-container {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
 
-        .error-msg {
-            color: red;
-            font-size: 18px;
-            font-weight: bold;
-            margin-top: 20px;
-            text-shadow: 0 0 10px red;
-            display: none;
-        }
-        .btn {
-            background-color: #333;
-            color: #fff;
-            border: none;
-            padding: 15px;
-            width: 100%;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 20px;
-            border-radius: 10px;
-            text-transform: uppercase;
-            transition: all 0.3s ease-in-out;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-        }
-        .btn:hover {
-            background-color: #404DFF;
-            color: #111;
-            box-shadow: 0 0 20px #404DFF;
-        }
+    .key-box {
+      background-color: #222;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      text-align: center;
+      width: 320px;
+      text-shadow: 0 0 10px white, 0 0 20px white, 0 0 30px white;
+    }
 
-        .key-container {
-            display: none;
-            margin-top: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        .key-box {
-            background-color: #222;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 16px;
-            font-weight: bold;
-            color: white;
-            text-align: center;
-            width: 320px;
-            text-shadow: 0 0 10px white, 0 0 20px white, 0 0 30px white;
-        }
-        .copy-btn {
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
-            font-size: 20px;
-            color: white;
-            text-shadow: 0 0 10px white, 0 0 20px white;
-            transition: 0.3s;
-        }
-        .copy-btn:hover {
-            color: #404DFF;
-            text-shadow: 0 0 15px #404DFF;
-        }
+    .copy-btn {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 20px;
+      color: white;
+      text-shadow: 0 0 10px white, 0 0 20px white;
+      transition: 0.3s;
+    }
 
-        .checkmark {
-            color: #00FF00; /* Brighter green */
-            font-size: 40px;
-            text-shadow: 0 0 15px #00FF00, 0 0 20px #00FF00; /* Green glow */
-            display: none; /* Initially hidden */
-        }
-    </style>
+    .copy-btn:hover {
+      color: #00FF00;
+      text-shadow: 0 0 15px #00FF00;
+    }
+
+    .checkmark {
+      color: #00FF00;
+      font-size: 28px;
+      text-shadow: 0 0 15px #00FF00, 0 0 20px #00FF00;
+      display: none;
+    }
+
+    .error-msg {
+      display: none;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1 id="pageTitle">Keysystem Complete</h1>
-        <p class="error-msg" id="errorMsg">Bypasser Detected, Please Try Again..</p>
-        <button class="btn" id="getKeyBtn" onclick="generateKey()">Get Key</button>
-        <div class="key-container">
-            <div class="key-box" id="keyBox"></div>
-            <button class="copy-btn" id="copyKeyBtn" onclick="copyKey()">📋</button>
-            <div class="checkmark" id="checkmark">✔️</div> <!-- Checkmark will show up here -->
-        </div>
+  <div class="container">
+    <h1>Keysystem Complete</h1>
+    <button class="btn" id="getKeyBtn" onclick="generateKey()">Get Key</button>
+    <div class="key-container" id="keyContainer" style="display: none;">
+      <div class="key-box" id="keyBox"></div>
+      <button class="copy-btn" id="copyKeyBtn" onclick="copyKey()">📋</button>
+      <div class="checkmark" id="checkmark">✔️</div>
     </div>
+  </div>
 
-    <script>
-        function generateKey() {
-            const key = generateRandomKey();
-            document.getElementById('keyBox').innerText = key;
-            document.getElementById('keyBox').style.display = "block";
-            document.getElementById('copyKeyBtn').style.display = "block";
-            document.getElementById('getKeyBtn').style.display = "none"; // Hide "Get Key" button
-        }
+  <script>
+    function generateKey() {
+      const key = Math.random().toString(36).substring(2, 34);
+      document.getElementById('keyBox').innerText = key;
+      document.getElementById('getKeyBtn').style.display = 'none';
+      document.getElementById('keyContainer').style.display = 'flex';
+    }
 
-        function copyKey() {
-            const keyBox = document.getElementById('keyBox');
-            const checkmark = document.getElementById('checkmark');
-            
-            // Copy the key to clipboard
-            navigator.clipboard.writeText(keyBox.innerText).then(() => {
-                checkmark.style.display = "block"; // Show checkmark after copying
-                setTimeout(() => {
-                    checkmark.style.display = "none"; // Hide checkmark after 2 seconds
-                }, 2000);
-            });
-        }
+    function copyKey() {
+      const keyText = document.getElementById('keyBox').innerText;
+      const checkmark = document.getElementById('checkmark');
 
-        function generateRandomKey() {
-            return Math.random().toString(36).substring(2, 34); // Generate a random 32-character key
-        }
-    </script>
+      navigator.clipboard.writeText(keyText).then(() => {
+        checkmark.style.display = 'block';
+        setTimeout(() => {
+          checkmark.style.display = 'none';
+        }, 2000);
+      });
+    }
+  </script>
 </body>
 </html>
