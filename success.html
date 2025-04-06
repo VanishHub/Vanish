@@ -23,21 +23,22 @@
     }
 
     h1 {
-      font-size: 30px;
+      font-size: 36px; /* Slightly bigger text */
       font-weight: bold;
       text-transform: uppercase;
       letter-spacing: 5px;
-      background: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet);
+      background: linear-gradient(270deg, #ff004f, #ff7b00, #ffee00, #00ff8e, #00cfff, #9c00ff);
       background-size: 1400% 1400%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      animation: rainbowText 10s ease infinite;
-      text-shadow: 0 0 10px red, 0 0 20px orange, 0 0 30px yellow, 0 0 40px green, 0 0 50px blue, 0 0 60px indigo, 0 0 70px violet;
+      animation: rainbowText 1s linear infinite;
     }
 
     @keyframes rainbowText {
       0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
+      25% { background-position: 100% 50%; }
+      50% { background-position: 0% 50%; }
+      75% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
 
@@ -69,7 +70,7 @@
     .btn:hover {
       background: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet);
       background-size: 1400% 1400%;
-      animation: rainbowText 5s linear infinite;
+      animation: rainbowText 1s linear infinite;
       color: black;
       box-shadow: 0 0 15px #fff;
     }
