@@ -145,9 +145,35 @@
       letter-spacing: 3px;
       background: linear-gradient(135deg, #1b005f, #7c00a6, #d000ab, #007cbe);
       background-size: 400% 400%;
-      animation: gradientBG 4.5s ease infinite;
+      animation: gradientBG 3.2s ease infinite;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+    }
+
+    .copy-btn {
+      background-color: #111;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 10px;
+      text-transform: uppercase;
+      transition: 0.3s ease;
+      margin-left: 10px;
+    }
+
+    .copy-btn:hover {
+      background: linear-gradient(135deg, #1b005f, #7c00a6, #d000ab, #007cbe);
+      background-size: 400% 400%;
+      animation: gradientBG 5s ease infinite;
+      color: white;
+    }
+
+    .copy-btn.copied {
+      background-color: #28a745;
+      color: white;
     }
   </style>
 </head>
@@ -156,11 +182,9 @@
     <img src="images/leaf.png" alt="Leaf Icon" class="leaf-icon" />
     <h1>Visual Keysystem</h1>
     <div class="key-container">
-      <div>Your Key:</div>
       <div id="key" class="key">Loading...</div>
+      <button id="copyBtn" class="copy-btn" onclick="copyKey()">Copy</button>
     </div>
-    <button class="btn" onclick="proceed()">Get Key</button>
-
     <div class="discord-link">
       <a href="https://discord.gg/tr3EAmja" target="_blank">
         <span>Visual Hub Discord</span>
@@ -188,19 +212,36 @@
       let key = '';
       for (let i = 0; i < 16; i++) {
         key += chars.charAt(Math.floor(Math.random() * chars.length));
-        if (i % 2 === 1 && i < 15) {
-          key += ' ';
-        }
       }
       return key;
     }
 
-    function proceed() {
-      // Add any additional actions when "Get Key" is clicked
+    function copyKey() {
+      const key = document.getElementById("key").textContent;
+      const textArea = document.createElement("textarea");
+      textArea.value = key;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textArea);
+
+      // Change button text to "Copied" and apply the copied style
+      const copyBtn = document.getElementById("copyBtn");
+      copyBtn.textContent = "Copied";
+      copyBtn.classList.add("copied");
+
+      // Reset button text after 2 seconds
+      setTimeout(() => {
+        copyBtn.textContent = "Copy";
+        copyBtn.classList.remove("copied");
+      }, 2000);
     }
 
     // Generate and display the key when the page loads
-    document.getElementById('key').textContent = generateKey();
+    window.onload = function() {
+      const generatedKey = generateKey();
+      document.getElementById('key').textContent = generatedKey;
+    };
   </script>
 </body>
 </html>
