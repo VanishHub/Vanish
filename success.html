@@ -6,36 +6,66 @@
   <title>Vanish Keysystem - Success</title>
   <style>
     body {
-      background-color: #000000;
+      background-color: #000;
       color: white;
       font-family: 'Arial', sans-serif;
       text-align: center;
       padding: 50px;
     }
+
     .container {
       max-width: 400px;
       margin: auto;
-      background: #0a0a0a;
+      background: #050505;
       padding: 40px;
       border-radius: 15px;
-      box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+      box-shadow: 0 0 40px rgba(255, 255, 255, 0.05);
     }
+
     h1 {
       font-size: 30px;
       font-weight: bold;
       text-transform: uppercase;
       letter-spacing: 3px;
+      color: white;
+      position: relative;
+      animation: glowBorder 6s linear infinite;
+    }
+
+    h1::before {
+      content: "Keysystem Complete";
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      -webkit-text-stroke: 2px transparent;
       background: linear-gradient(270deg, red, orange, yellow, green, cyan, blue, violet, red);
-      background-size: 2000% 2000%;
+      background-size: 200% 200%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      animation: rainbowFlow 16s linear infinite;
-      text-shadow: 0 0 10px red, 0 0 20px orange, 0 0 30px yellow, 0 0 40px green, 0 0 50px blue, 0 0 60px indigo, 0 0 70px violet;
+      animation: rainbowGlow 8s linear infinite;
+      filter: drop-shadow(0 0 6px red)
+              drop-shadow(0 0 12px orange)
+              drop-shadow(0 0 18px yellow)
+              drop-shadow(0 0 24px green)
+              drop-shadow(0 0 30px blue)
+              drop-shadow(0 0 36px indigo)
+              drop-shadow(0 0 42px violet);
     }
-    @keyframes rainbowFlow {
+
+    @keyframes rainbowGlow {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
+    }
+
+    .error-msg {
+      color: red;
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 20px;
+      text-shadow: 0 0 10px red;
+      display: none;
     }
 
     .btn {
@@ -51,7 +81,7 @@
       border-radius: 10px;
       text-transform: uppercase;
       transition: all 0.3s ease-in-out;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
     }
 
     .btn:hover {
@@ -61,6 +91,7 @@
     }
 
     .key-container {
+      display: none;
       margin-top: 20px;
       display: flex;
       align-items: center;
@@ -91,27 +122,24 @@
     }
 
     .copy-btn:hover {
-      color: #00FF00;
-      text-shadow: 0 0 15px #00FF00;
+      color: #404DFF;
+      text-shadow: 0 0 15px #404DFF;
     }
 
     .checkmark {
       color: #00FF00;
-      font-size: 28px;
+      font-size: 40px;
       text-shadow: 0 0 15px #00FF00, 0 0 20px #00FF00;
-      display: none;
-    }
-
-    .error-msg {
       display: none;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Keysystem Complete</h1>
+    <h1 id="pageTitle">Keysystem Complete</h1>
+    <p class="error-msg" id="errorMsg">Bypasser Detected, Please Try Again..</p>
     <button class="btn" id="getKeyBtn" onclick="generateKey()">Get Key</button>
-    <div class="key-container" id="keyContainer" style="display: none;">
+    <div class="key-container">
       <div class="key-box" id="keyBox"></div>
       <button class="copy-btn" id="copyKeyBtn" onclick="copyKey()">📋</button>
       <div class="checkmark" id="checkmark">✔️</div>
@@ -120,22 +148,27 @@
 
   <script>
     function generateKey() {
-      const key = Math.random().toString(36).substring(2, 34);
+      const key = generateRandomKey();
       document.getElementById('keyBox').innerText = key;
-      document.getElementById('getKeyBtn').style.display = 'none';
-      document.getElementById('keyContainer').style.display = 'flex';
+      document.getElementById('keyBox').style.display = "block";
+      document.getElementById('copyKeyBtn').style.display = "block";
+      document.getElementById('getKeyBtn').style.display = "none";
     }
 
     function copyKey() {
-      const keyText = document.getElementById('keyBox').innerText;
+      const keyBox = document.getElementById('keyBox');
       const checkmark = document.getElementById('checkmark');
 
-      navigator.clipboard.writeText(keyText).then(() => {
-        checkmark.style.display = 'block';
+      navigator.clipboard.writeText(keyBox.innerText).then(() => {
+        checkmark.style.display = "block";
         setTimeout(() => {
-          checkmark.style.display = 'none';
+          checkmark.style.display = "none";
         }, 2000);
       });
+    }
+
+    function generateRandomKey() {
+      return Math.random().toString(36).substring(2, 34);
     }
   </script>
 </body>
