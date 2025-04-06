@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Keysystem Complete</title>
+  <title>Visual Keysystem</title>
   <style>
     @font-face {
       font-family: 'Orbitron';
@@ -13,7 +13,7 @@
     body {
       background: linear-gradient(135deg, #1b005f, #7c00a6, #d000ab, #007cbe);
       background-size: 400% 400%;
-      animation: gradientBG 3s ease infinite;
+      animation: gradientBG 15s ease infinite;
       color: white;
       font-family: 'Orbitron', sans-serif;
       text-align: center;
@@ -52,7 +52,7 @@
       letter-spacing: 4px;
       background: linear-gradient(135deg, #1b005f, #7c00a6, #d000ab, #007cbe);
       background-size: 400% 400%;
-      animation: gradientBG 3s ease infinite;
+      animation: gradientBG 4.5s ease infinite;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin: 50px 0 20px;
@@ -75,7 +75,7 @@
     .btn:hover {
       background: linear-gradient(135deg, #1b005f, #7c00a6, #d000ab, #007cbe);
       background-size: 400% 400%;
-      animation: gradientBG 3s ease infinite;
+      animation: gradientBG 5s ease infinite;
       color: white;
     }
 
@@ -107,8 +107,8 @@
     .discord-link {
       position: absolute;
       bottom: 10px;
-      left: 50%; /* Change from 15% to 50% to center it */
-      transform: translateX(-50%); /* Adjust to exactly center */
+      left: 50%;
+      transform: translateX(-50%);
       display: flex;
       align-items: center;
       gap: 10px;
@@ -118,84 +118,33 @@
       text-transform: uppercase;
       background: linear-gradient(135deg, #1b005f, #7c00a6, #d000ab, #007cbe);
       background-size: 400% 400%;
-      animation: gradientBG 3s ease infinite;
+      animation: gradientBG 3.5s ease infinite;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       padding-left: 20px;
       padding-right: 20px;
       padding-top: 5px;
       padding-bottom: 5px;
-      width: 70%;
+      width: 100%;
       justify-content: center;
-    }
-
-    .discord-link img {
-      width: 25px;
-      height: 25px;
     }
 
     .discord-link a {
       text-decoration: none;
-    }
-
-    .key-container {
-      margin-top: 20px;
-    }
-
-    .key-display {
-      font-size: 20px;
-      background-color: #222;
-      padding: 10px;
-      border-radius: 10px;
-      display: inline-block;
-      word-wrap: break-word;
-      white-space: nowrap;
-      max-width: 100%;
-    }
-
-    .copy-btn {
-      background-color: #111;
-      border: none;
-      padding: 10px;
-      cursor: pointer;
-      border-radius: 5px;
-      margin-left: 15px;
-      transition: 0.3s ease;
-      font-size: 18px;
-      color: white;
-    }
-
-    .copy-btn:hover {
-      background-color: white;
-      color: #111;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-    }
-
-    .copy-btn.success {
-      color: green;
-      font-size: 18px;
-      background: transparent;
-      box-shadow: 0 0 20px rgba(0, 255, 0, 0.7);
     }
   </style>
 </head>
 <body>
   <div class="container">
     <img src="images/leaf.png" alt="Leaf Icon" class="leaf-icon" />
-    <h1>Keysystem Complete</h1>
-    <button class="btn" onclick="generateKey()">Get Key</button>
+    <h1>Visual Keysystem</h1>
+    <button class="btn" onclick="proceed()">Get Key</button>
 
-    <!-- Move Discord link below the button and adjust the box size -->
+    <!-- Move Discord link slightly left to center it -->
     <div class="discord-link">
       <a href="https://discord.gg/tr3EAmja" target="_blank">
-        <span>Vanish Hub Discord</span>
+        <span>Visual Hub Discord</span>
       </a>
-    </div>
-
-    <!-- Key container will be populated once the key is generated -->
-    <div class="key-container" id="key-container" style="display: none;">
-      <div class="key-display" id="generated-key"></div>
-      <button class="copy-btn" id="copy-btn" onclick="copyKey()">Copy</button>
     </div>
   </div>
 
@@ -214,36 +163,8 @@
   </div>
 
   <script>
-    function generateKey() {
-      const key = generateUniqueKey(); // Generate unique 16-character key
-      document.querySelector(".btn").style.display = "none"; // Hide the "Get Key" button
-      document.getElementById("key-container").style.display = "block"; // Show the key display
-      document.getElementById("generated-key").textContent = key; // Display the generated key
-    }
-
-    function generateUniqueKey() {
-      const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
-      let result = '';
-      for (let i = 0; i < 16; i++) {
-        const randomIndex = Math.floor(Math.random() * characters.length);
-        result += characters[randomIndex];
-      }
-      return result;
-    }
-
-    function copyKey() {
-      const key = document.getElementById("generated-key").textContent; // Get the key text
-      navigator.clipboard.writeText(key).then(() => {
-        const copyBtn = document.getElementById("copy-btn");
-        copyBtn.classList.add("success"); // Change the button to a success state (checkmark with green glow)
-        copyBtn.textContent = "✔ Copied"; // Update the button text to "Copied"
-        setTimeout(() => {
-          copyBtn.classList.remove("success");
-          copyBtn.textContent = "Copy"; // Reset the button after a short delay
-        }, 2000); // Reset after 2 seconds
-      }).catch(err => {
-        alert("Failed to copy the key: " + err);
-      });
+    function proceed() {
+      // Additional functionality here
     }
   </script>
 </body>
