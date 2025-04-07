@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Keysystem Complete</title>
   <style>
+    /* Your existing styles remain unchanged */
     @font-face {
       font-family: 'Orbitron';
       src: url('fonts/Orbitron-SemiBold.ttf') format('truetype');
@@ -210,7 +211,7 @@
     function generateKey() {
       const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
       let key = '';
-      for (let i = 0; i < 16; i++) {
+      for (let i = 0; i < 32; i++) {
         key += chars.charAt(Math.floor(Math.random() * chars.length));
       }
       return key;
@@ -237,10 +238,46 @@
       }, 2000);
     }
 
-    // Generate and display the key when the page loads
+    // Check if a key exists in localStorage, if not, generate a new key and store it
     window.onload = function() {
-      const generatedKey = generateKey();
-      document.getElementById('key').textContent = generatedKey;
+      let key = localStorage.getItem("user_key");
+
+      // If no key exists, generate and store it in localStorage
+      if (!key) {
+        key = generateKey();
+        localStorage.setItem("user_key", key);
+      }
+
+      // Display the key
+      document.getElementById('key').textContent = key;
+
+      // Check for token and send to server for validation
+      let token = localStorage.getItem('user_token');
+      if (!token) {
+        // Generate and store a token
+        token = generateKey();
+        localStorage.setItem('user_token', token);
+      }
+
+      // Send the token and the generated key to the server for validation
+      fetch('https://your-server-url.com/verify-key', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ key: key, token: token })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          // Process successful key validation
+        } else {
+          // Handle failed validation
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
     };
   </script>
 </body>
